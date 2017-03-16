@@ -1,0 +1,41 @@
+{
+  "name": "gb-backend-endpoint-caller",
+  "version": "0.0.1",
+  "description": "This server will call all the urls and make the average.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GaudiTeamB/gb-backend-enpoint-caller.git"
+  },
+  "keywords": [
+    "time",
+    "measuring",
+    "post",
+    "url"
+  ],
+  "author": "Gaudi Team B",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/GaudiTeamB/gb-backend-enpoint-caller/issues"
+  },
+  "homepage": "https://github.com/GaudiTeamB/gb-backend-enpoint-caller#readme",
+  "engines": {
+    "node": "7.0.0"
+  },
+  "private": true,
+  "dependencies": {
+    "express": "4.15.2",
+    "swagger": "*"
+  },
+  "devDependencies": {
+    "babel-eslint": "7.1.1",
+    "eslint": "3.17.1",
+    "eslint-plugin-react": "6.10.0",
+    "mocha": "*",
+    "chai": "*"
+  }
+}
