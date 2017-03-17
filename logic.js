@@ -43,8 +43,11 @@ isValidUrl: function (destinationUrl) {
 },
 
 
-httpCall: function(destinationHost, callId) {
-    var urlPath = "\?url="+ destinationHost +"&id=" + callId;
+httpCall: function(destinationHost, callId, callNumber) {
+    var urlPath = "\?url=" + destinationHost + 
+                  "&id=" + callId + 
+                  "&number="+callNumer;
+                  
     return new Promise(function (resolve, reject) {
         var http = require('http');
         var options = {
