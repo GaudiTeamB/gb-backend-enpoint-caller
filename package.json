@@ -29,6 +29,7 @@
   "private": true,
   "dependencies": {
     "express": "4.15.2",
+    "react-native-uuid": "1.4.9",
     "swagger": "*"
   },
   "devDependencies": {

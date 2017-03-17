@@ -1,6 +1,8 @@
 var port = 8081;
 var express = require('express');
 var logic = require('./logic');
+var uuid = require('react-native-uuid');
+
 var app = express();
 
 app.use(function(req, res, next) {
@@ -10,14 +12,21 @@ app.use(function(req, res, next) {
 }); 
 
 app.get('/', function (request, response) {
-
+    
    var destinationHost = logic.retrieveUrl(request);
    var numberOfCalls = logic.retrieveNumberOfCalls(request);
 
     if(destinationHost === undefined || !logic.isValidUrl(destinationHost || numberOfCalls < 1)) {
-        logic.sendResponse(response, 404, "Invalid URL: " + destinationHost)
+        logic.sendErrorResponse(response, 404, "Invalid URL: " + destinationHost)
     }
     else {
+        var callId= uuid.v4();
+
+        for(var i = 0; i < numberOfCalls; i++)
+        {
+            logic.httpCall(detinationHost, callId);
+        }
+
         logic.sendResponse(response, 200, "Ok")
     }
 });

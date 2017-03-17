@@ -1,27 +1,14 @@
 var urlValidations = require('./urlValidations.js');
 
 module.exports = {
-sendResponse: function(response, result, message){
-        response.writeHead(200, {"Content-Type": "application/json"});
+sendErrorResponse: function(response, result, message){
+        response.writeHead(result, {"Content-Type": "application/json"});
 
-        var averegeCalculation = {
-                                     data : [
-                                            {endpoint: 'EMEA', average: 2500},
-                                            {endpoint: 'AMER', average: 3600},
-                                            {endpoint: 'ASIA', average: 5500},
-                                     ],
-                                };
+        var errorResponse = {
+            error : message
+        };
 
-        response.end(JSON.stringify(averegeCalculation));
-},
-
-addTrace: function (start, status) {
-    var end = new Date();
-    // TODO: Store in mongo EndTime
-    console.log("End Time: " + end);
-    var lapse = end - start;
-    // TODO: Store in mongo Status
-    console.log("Status Response: "+ status +" Time Lapse = " +lapse + "ms");
+        response.end(JSON.stringify(errorResponse));
 },
 
 retrieveUrl: function(request){
@@ -56,18 +43,19 @@ isValidUrl: function (destinationUrl) {
 },
 
 
-httpCall: function(destinationHost) {
+httpCall: function(destinationHost, callId) {
+    var urlPath = "\?url="+ destinationHost +"&id=" + callId;
     return new Promise(function (resolve, reject) {
         var http = require('http');
         var options = {
-                    host: destinationHost,
-                    port: 80,
-                    path: '/'
+                    host: 'localhost',
+                    port: 1980,
+                    path: urlPath
                 };
 
         http.get(options, function(res) {
             res.on("data", function() {
-                resolve(res.statusCode);
+                resolve(res);
             });
         }).on('error', function(e) {
             reject(e.message);
