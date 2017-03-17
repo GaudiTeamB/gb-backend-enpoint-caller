@@ -1,15 +1,6 @@
 var urlValidations = require('./urlValidations.js');
 
 module.exports = {
-sendErrorResponse: function(response, result, message){
-        response.writeHead(result, {"Content-Type": "application/json"});
-
-        var errorResponse = {
-            error : message
-        };
-
-        response.end(JSON.stringify(errorResponse));
-},
 
 retrieveUrl: function(request){
     var url = require('url');
@@ -44,9 +35,9 @@ isValidUrl: function (destinationUrl) {
 
 
 httpCall: function(destinationHost, callId, callNumber) {
-    var urlPath = "\?url=" + destinationHost + 
+    var urlPath = "/?url=" + destinationHost + 
                   "&id=" + callId + 
-                  "&number="+callNumer;
+                  "&number=" + callNumber;
                   
     return new Promise(function (resolve, reject) {
         var http = require('http');
@@ -64,6 +55,16 @@ httpCall: function(destinationHost, callId, callNumber) {
             reject(e.message);
         });
     });
-}
+},
+
+sendResponse: function(response, result, message){
+    if(result === 200){
+        response.writeHead(200, {"Content-Type": "application/json"});
+        response.end(JSON.stringify({ message : message }));
+    } else {
+        response.writeHead(500, {"Content-Type": "application/json"});
+        response.end(JSON.stringify({ message : message }));
+    }
+},
 
 }

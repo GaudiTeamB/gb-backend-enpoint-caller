@@ -17,20 +17,22 @@ app.get('/', function (request, response) {
    var numberOfCalls = logic.retrieveNumberOfCalls(request);
    var callId = uuid.v4();
 
+    console.log("destinationHost: " + destinationHost + " numberOfCalls="+ numberOfCalls  + " callId=" + callId);
+
     if(destinationHost === undefined || !logic.isValidUrl(destinationHost || numberOfCalls < 1)) {
-        logic.sendErrorResponse(response, 404, "Invalid URL: " + destinationHost)
+        logic.sendResponse(response, 404, "Invalid URL: " + destinationHost);
     }
     else {
         for(var i = 0; i < numberOfCalls; i++)
         {
-            logic.httpCall(detinationHost, callId, i)
-                .then(function (res){
+            logic.httpCall(destinationHost, callId, i)
+                .then(function (resp){
                     if( i === (numberOfCalls - 1))
                     {
-                        logic.sendResponse(response, 200, "Ok")
+                        logic.sendResponse(resp, 200, "Ok");
                     }
                 }).catch(function (error) {
-                    logic.sendResponse(error, 500, "Error");
+                    logic.sendResponse(response, 500, "Error: "+ error);
                 });
         }
     }
